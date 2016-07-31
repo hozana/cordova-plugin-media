@@ -24,6 +24,7 @@
 #define HTTP_SCHEME_PREFIX @"http://"
 #define HTTPS_SCHEME_PREFIX @"https://"
 #define CDVFILE_PREFIX @"cdvfile://"
+#define FILE_PREFIX @"file://"
 #define RECORDING_WAV @"wav"
 
 @implementation CDVSound
@@ -80,6 +81,9 @@
     NSString* filePath = nil;
 
     // first try to find HTTP:// or Documents:// resources
+    
+    if ([resourcePath hasPrefix:FILE_PREFIX])
+        resourcePath = [resourcePath substringFromIndex:FILE_PREFIX.length];
 
     if ([resourcePath hasPrefix:HTTP_SCHEME_PREFIX] || [resourcePath hasPrefix:HTTPS_SCHEME_PREFIX]) {
         // if it is a http url, use it
